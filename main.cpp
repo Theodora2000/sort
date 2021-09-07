@@ -11,6 +11,9 @@ void ispisNiza(int niz[], int n);
 void kopirajNiz(int niz[], int niz1[], int n);
 bool sortiranOpadajuce(int niz[], int n);
 int insertionSort(int niz[], int n);
+void quickSort(int niz[], int n);
+int podeli(int, int, int[]);
+void quickSortHelp(int [], int , int );
 
 int main() {
     int niz[30], niz1[30], niz2[30];
@@ -18,20 +21,21 @@ int main() {
     int bubble2;
     popuniNiz(niz, &n);      // niz == &niz[0]
     //bool sortiran = sortiranOpadajuce(niz, n);
-    kopirajNiz(niz, niz1,n);
-    kopirajNiz(niz, niz2,n);
-
+  //  kopirajNiz(niz, niz1,n);
+    //kopirajNiz(niz, niz2,n);
+/*
     bubble2 = sortBubble2(niz, n);
     int insertion = insertionSort(niz1, n);
-int selection = sortSelection(niz2, n);
-    ispisNiza(niz1, n);
+int selection = sortSelection(niz2, n);*/
+    quickSort(niz, n);
+    ispisNiza(niz, n);
 
 //    if(sortiran){
 //        cout<< "Niz je sortiran";
 //    }else{
 //        cout<< "niz nije sortiran";
 //    }
-    cout << "Broj poredjenja bubble2  = " << bubble2 << " , insertion je = " <<insertion <<" , selection je = " <<selection;
+   // cout << "Broj poredjenja bubble2  = " << bubble2 << " , insertion je = " <<insertion <<" , selection je = " <<selection;
     return 0;
 }
 int swap(int *a, int *b){
@@ -58,7 +62,7 @@ int sortBubble1(int niz[], int n){      //vraca broj poreednjenja
         for(int j = 0; j < n - 1; j++){
             poredjenja++;
             if(niz[j] > niz[j+1]){
-                swap(&niz[i], &niz[j+1]);
+                swap(&niz[j], &niz[j+1]);
             }
         }
     }
@@ -126,4 +130,35 @@ bool sortiranOpadajuce(int niz[], int n){
         }
     }
     return true;
+}
+
+void quickSort(int niz[], int n){
+    quickSortHelp(niz, 0, n-1);
+}
+void quickSortHelp(int niz[], int an1, int an2){
+    if( an1 >= an2){
+        return;
+    }
+    if( an1 + 1 == an2){
+        if(niz[an1] > niz[an2]){
+            swap(&niz[an1], &niz[an2]);
+            return;
+        }
+    }
+    int sredina = podeli(an1, an2, niz);
+    quickSortHelp(niz, an1, sredina - 1);
+    quickSortHelp(niz, sredina + 1, an2);
+}
+int podeli(int an1, int an2, int niz[]){
+    int j = an1;
+    int i = j + 1;
+    for(; i < an2; i++){
+        if(niz[i] > niz[an1]){
+            continue;
+        }
+        j++;
+        swap(&niz[i], &niz[j]);
+    }
+    swap(&niz[j], &niz[an1]);
+    return j;
 }
