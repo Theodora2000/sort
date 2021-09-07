@@ -7,7 +7,7 @@ int  sortSelection(int niz[], int n){
     for(int i = 0; i < n; i++){
         for(int j = i+1; j < n; j++) {
                 poredjenje++;
-                if (niz[i] >niz[j]) {
+                if (niz[i] > niz[j]) {
 
                     int pom = niz[i];
                     niz[i] = niz[j];
@@ -37,15 +37,21 @@ int sortBubble1(int niz[], int n){      //vraca broj poreednjenja
 
 int sortBubble2(int niz[], int n){
     int poredjenja = 0;
+    bool biloZamene = false;
     for(int i = n-1; i > 0; i--){
         for(int j = 0; j < i; j++){
             poredjenja++;
             if(niz[j] > niz[j+1]){
+                biloZamene = true;
                 int pom = niz[j];
                 niz[j] = niz[j + 1];
                 niz[j + 1] = pom;
             }
         }
+        if(!biloZamene){
+            break;
+        }
+
     }
     return poredjenja;
 }
@@ -69,16 +75,32 @@ void kopirajNiz(int niz[], int niz1[], int n){
     }
 }
 
+bool sortiranOpadajuce(int niz[], int n){
+    for(int i = 0; i < n-1; i++){
+        if(niz[i]>niz[i+1]){
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
     int niz[30], niz1[30];
     int n;
     int bubble2;
     popuniNiz(niz, &n);      // niz == &niz[0]
+    bool sortiran = sortiranOpadajuce(niz, n);
     kopirajNiz(niz, niz1,n);
 
     bubble2 = sortBubble2(niz, n);
     int selection = sortSelection(niz1, n);
     ispisNiza(niz, n);
+
+    if(sortiran){
+        cout<< "Niz je sortiran";
+    }else{
+        cout<< "niz nije sortiran";
+    }
     cout << "Broj poredjenja bubble2  = " << bubble2 << " a selection je = " <<selection;
     return 0;
 }
